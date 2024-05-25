@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\PanelControoler;
 use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\Customer\HomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -24,9 +25,25 @@ Route::get('/', function () {
 Route::get('/panel', [PanelControoler::class, 'index'])->name('panel');
 
 //post
-Route::get('panel/posts', [PostController::class, 'index'])->name('panel.post');
-Route::get('panel/posts/create', [PostController::class, 'create'])->name('panel.post.create');
-Route::post('panel/posts/store', [PostController::class, 'store'])->name('panel.post.store');
+Route::prefix('panel')->group(function () {
+    Route::resource('posts', PostController::class)->except([
+        'show'
+    ])->names([
+        'index' => 'panel.post',
+        'create' => 'panel.post.create',
+        'store' => 'panel.post.store',
+    ]);
+});
+
+//users
+
+Route::resource('users', UserController::class)
+    ->names([
+        'index' => 'users',
+        'create' => 'user.create',
+        'store' => 'user.store',
+    ]);
+
 
 //home-customer
 Route::get('/', [HomeController::class, 'index'])->name('home.customer');
