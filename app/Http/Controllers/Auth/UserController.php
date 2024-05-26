@@ -4,40 +4,36 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Repository\UserRepo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    private $repo;
+
+    public function __construct(UserRepo $repo)
+    {
+        $this->repo = $repo;
+    }
     public function index()
     {
-        return view('auth.register');
+        return $this->repo->index();
     }
 
-    public function create()
+    public function login()
     {
-        dd('cre');
-        return view('auth.create');
+        return $this->repo->login();
+    }
+
+    public function checkLogin(Request $request)
+    {
+        $this->repo->checkLogin($request);
     }
 
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|email|string',
-            'password' => 'required'
-        ]);
-        $inputs = $request->all();
-
-        if (User::where('email', $inputs['email'])->exists()) {
-            echo 'email alreade exist!';
-        } else {
-            echo 'you can';
-        }
-
-        // dd($inputs);
-        // $inputs['author_id'] = 1;
-        // $post = Post::create($inputs);
-        // LogPostAdmin::dispatch($post);
-        // return redirect()->route('panel.post')->with('success', 'created successfully!');
+        return $this->repo->store($request);
     }
 }

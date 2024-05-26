@@ -22,22 +22,24 @@ Route::get('/', function () {
 });
 
 //panel
-Route::get('/panel', [PanelControoler::class, 'index'])->name('panel');
-
-//post
-Route::prefix('panel')->group(function () {
-    Route::resource('posts', PostController::class)->except([
-        'show'
-    ])->names([
-        'index' => 'panel.post',
-        'create' => 'panel.post.create',
-        'store' => 'panel.post.store',
-    ]);
+Route::prefix('/panel')->middleware('checkAuth')->group(function () {
+    Route::get('/', [PanelControoler::class, 'index'])->name('panel');
+    //post
+    Route::prefix('posts')->group(function () {
+        Route::get('/', [PostController::class, 'index'])->name('panel.post');
+        Route::get('/create', [PostController::class, 'create'])->name('panel.post.create');
+        Route::post('/store', [PostController::class, 'store'])->name('panel.post.store');
+    });
 });
+
+
+
+
+
 
 //users
 
-Route::resource('users', UserController::class)
+Route::resource('auth', UserController::class)->except('show')
     ->names([
         'index' => 'users',
         'create' => 'user.create',
@@ -45,6 +47,8 @@ Route::resource('users', UserController::class)
     ]);
 
 
+Route::get('auth/login', [UserController::class, 'login'])->name('user.login');
+Route::post('auth/checkLogin', [UserController::class, 'checkLogin'])->name('user.checkLogin');
 //home-customer
 Route::get('/', [HomeController::class, 'index'])->name('home.customer');
 // Route::get('/', [HomeController::class, 'latestPost'])->name('home.customer.latestPost');

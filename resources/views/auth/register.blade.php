@@ -8,7 +8,6 @@
     <div class="form-group">
         <label for="exampleInputEmail1">Full Name</label>
         <input name="name" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Yourn Name">
-    
     </div>
     <div class="form-group">
       <label for="exampleInputEmail1">Email address</label>

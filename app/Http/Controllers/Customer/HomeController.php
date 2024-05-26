@@ -4,19 +4,24 @@ namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
 use App\Models\Post;
+use App\Repository\CusomerHomeRepo;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
+    private $repo;
+
+    public function __construct(CusomerHomeRepo $repo)
+    {
+        $this->repo = $repo;
+    }
     public function index()
     {
-        $latestPost = Post::select('id','title', 'created_at', 'body')->where('status', 1)->orderBy('created_at')->get();
-        
-        return view('customers.index', compact('latestPost'));
+       return $this->repo->index();
     }
 
     public function showPost(Post $post)
     {
-       return view('customers.show-post', compact('post'));
+       return $this->repo->showPost($post);
     }
 }

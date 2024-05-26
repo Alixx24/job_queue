@@ -5,28 +5,30 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Jobs\LogPostAdmin;
 use App\Models\Post;
+use App\Repository\PostRepo;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
+    private $repo;
+    
+    public function __construct(PostRepo $repo)
+    {
+        $this->repo = $repo;
+    }
+
     public function index()
     {
-        $posts = Post::select()->orderBy('created_at')->get();
-        return view('panel.index', compact('posts'));
+        return $this->repo->index();     
     }
 
     public function create()
     {
-        return view('panel.create');
+        return $this->repo->create();
     }
 
     public function store(Request $request)
     {
-        $inputs = $request->all();
-
-        $inputs['author_id'] = 1;
-        $post = Post::create($inputs);
-        LogPostAdmin::dispatch($post);
-        return redirect()->route('panel.post')->with('success', 'created successfully!');
+        return $this->repo->store($request);
     }
 }
