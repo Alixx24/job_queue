@@ -4,7 +4,10 @@ use App\Http\Controllers\Admin\PanelControoler;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\Customer\HomeController;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,8 +25,16 @@ Route::get('/', function () {
 });
 
 //panel
-Route::prefix('/panel')->middleware('checkAuth')->group(function () {
+Route::prefix('/panel')->group(function () {
     Route::get('/', [PanelControoler::class, 'index'])->name('panel');
+
+    // $role = Role::query()->find(1);
+    $permission = Permission::query()->find(1);
+    $user = User::query()->find(2);
+    #this is for ekhtesas dadane yek permission be User
+    // $user->givePermissionTo($permission);
+    $users = $user->query()->with('permissions')->get();
+    // dd($users);
     //post
     Route::prefix('posts')->group(function () {
         Route::get('/', [PostController::class, 'index'])->name('panel.post');

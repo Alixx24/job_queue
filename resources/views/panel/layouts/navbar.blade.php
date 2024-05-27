@@ -11,9 +11,14 @@
         <div class="navbar-nav">
         <a class="nav-item nav-link" href="{{ route('home.customer') }}">Go to Web!</a>
             <a class="nav-item nav-link active" href="{{ route('panel') }}">Home Panel</a>
+        
+           @if(auth()->user()->hasPermissionTo('تماشا انبار'))
             <a class="nav-item nav-link" href="{{ route('panel.post') }}">Posts</a>
+           
             <a class="nav-item nav-link" href="{{ route('panel.post.create') }}">Make post</a>
+            @endif
             <a class="nav-item nav-link disabled" href="#">Disabled</a>
+            
         </div>
     </div>
 </nav>
