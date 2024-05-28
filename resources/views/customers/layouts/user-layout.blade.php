@@ -9,6 +9,7 @@
 </head>
 
 <body>
+    @include('customers.layouts.navbar')
     @yield('content')
 </body>
 

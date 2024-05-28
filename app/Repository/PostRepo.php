@@ -24,7 +24,6 @@ class PostRepo
     public function store(PostRequest $request)
     {
         $inputs = $request->all();
-        
         $inputs['author_id'] = 1;
         $post = Post::create($inputs);
         LogPostAdmin::dispatch($post);

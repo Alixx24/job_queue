@@ -32,7 +32,7 @@ Route::prefix('/panel')->group(function () {
     $permission = Permission::query()->find(1);
     $user = User::query()->find(2);
     #this is for ekhtesas dadane yek permission be User
-    // $user->givePermissionTo($permission);
+    $user->givePermissionTo($permission);
     $users = $user->query()->with('permissions')->get();
     // dd($users);
     //post
@@ -58,9 +58,14 @@ Route::resource('auth', UserController::class)->except('show')
     ]);
 
 
-Route::get('auth/login', [UserController::class, 'login'])->name('user.login');
+Route::get('auth/login', [UserController::class, 'login'])->name('login');
 Route::post('auth/checkLogin', [UserController::class, 'checkLogin'])->name('user.checkLogin');
 //home-customer
+
+// Route::prefix('/')->group(function () {
+
+// });
 Route::get('/', [HomeController::class, 'index'])->name('home.customer');
+Route::get('/user/log-out', [UserController::class, 'logOut'])->name('user.logout');
 // Route::get('/', [HomeController::class, 'latestPost'])->name('home.customer.latestPost');
 Route::get('/show-post/{post}', [HomeController::class, 'showPost'])->name('home.customer.showPost');

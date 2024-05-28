@@ -36,4 +36,9 @@ class UserController extends Controller
     {
         return $this->repo->store($request);
     }
+
+    public function logOut()
+    {
+       return $this->repo->logOut();
+    }
 }

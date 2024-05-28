@@ -3,8 +3,12 @@
 namespace App\Repository;
 
 use App\Models\User;
+use App\Services\Cookie;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie as FacadesCookie;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redirect;
 
 class UserRepo
 {
@@ -45,11 +49,22 @@ class UserRepo
             $passInput = $checkDb[0]['password'];
 
             $result = Hash::check($inputs['password'], $passInput);
+            $cookie = cookie('user_name', json_encode($inputs), 60);
+            // dd($cookie);
+            return redirect()->route('panel');
             if ($result) {
-                dd('login successfullt!');
+                // $cookie = cookie('user_name', json_encode($inputs), 60);
+                // return redirect()->intended('panel')->cookie($cookie);
             } else {
                 dd('password incorrect');
             }
         }
+    }
+
+    public function logOut()
+    {
+        // dd('flush');
+        session()->flush();
+        return Redirect::back()->withErrors(['msg' => 'The Message']);
     }
 }
