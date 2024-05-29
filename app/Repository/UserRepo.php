@@ -3,15 +3,17 @@
 namespace App\Repository;
 
 use App\Models\User;
-use App\Services\Cookie;
+
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cookie as FacadesCookie;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 
 class UserRepo
 {
+
     public function index()
     {
         return view('auth.register');
@@ -21,6 +23,7 @@ class UserRepo
     {
         return view('auth.login');
     }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -39,32 +42,41 @@ class UserRepo
         }
     }
 
-    public function checkLogin(Request $request)
+    public function checkLogin(Request $request, Response $response)
     {
-        $inputs = $request->all();
-        if (!User::where('email', $inputs['email'])->exists()) {
-            var_dump('email not exist');
-        } else {
-            $checkDb = User::where('email', $inputs['email'])->get();
-            $passInput = $checkDb[0]['password'];
+      
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+            //it gives me the auth user object
+                        return redirect()->route('panel');
 
-            $result = Hash::check($inputs['password'], $passInput);
-            $cookie = cookie('user_name', json_encode($inputs), 60);
-            // dd($cookie);
-            return redirect()->route('panel');
-            if ($result) {
-                // $cookie = cookie('user_name', json_encode($inputs), 60);
-                // return redirect()->intended('panel')->cookie($cookie);
-            } else {
-                dd('password incorrect');
-            }
+            // dd(auth()->user()->id);
         }
+        // $inputs = $request->all();
+        // if (!User::where('email', $inputs['email'])->exists()) {
+        //     var_dump('email not exist');
+        // } else {
+        //     $checkDb = User::where('email', $inputs['email'])->get();
+        //     $passInput = $checkDb[0]['password'];
+        //     $user = $inputs['email']; 
+        //     $result = Hash::check($inputs['password'], $passInput);
+
+        //     if ($result) {
+        //         cookie()->queue(cookie('user_logged_in', $user, 60));
+
+        //         return redirect()->intended(redirect()->back());
+        //         return redirect()->route('panel');
+        //     } else {
+        //         dd('password incorrect');
+        //     }
+        // }
     }
 
-    public function logOut()
+    public function logOut(Request $request)
     {
-        // dd('flush');
-        session()->flush();
-        return Redirect::back()->withErrors(['msg' => 'The Message']);
+        Auth::logout();
+        Cookie::queue(Cookie::forget('user_logged_in'));
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect('/');
     }
 }

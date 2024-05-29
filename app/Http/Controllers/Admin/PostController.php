@@ -18,6 +18,7 @@ class PostController extends Controller
     public function __construct(PostRepo $repo)
     {
         $this->repo = $repo;
+        
     }
 
     public function index()
@@ -26,8 +27,6 @@ class PostController extends Controller
         // if ($user->hasRole('manager')) {
         //     return $this->repo->index();
         // }
-
-
         return $this->repo->index();
     }
 

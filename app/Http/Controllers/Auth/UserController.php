@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Repository\UserRepo;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Response;
+
 
 class UserController extends Controller
 {
@@ -16,6 +16,8 @@ class UserController extends Controller
     public function __construct(UserRepo $repo)
     {
         $this->repo = $repo;
+       
+        
     }
     public function index()
     {
@@ -27,9 +29,9 @@ class UserController extends Controller
         return $this->repo->login();
     }
 
-    public function checkLogin(Request $request)
+    public function checkLogin(Request $request, Response $response)
     {
-        $this->repo->checkLogin($request);
+        $this->repo->checkLogin($request, $response);
     }
 
     public function store(Request $request)
@@ -37,8 +39,8 @@ class UserController extends Controller
         return $this->repo->store($request);
     }
 
-    public function logOut()
+    public function logOut(Request $request)
     {
-       return $this->repo->logOut();
+        return $this->repo->logOut($request);
     }
 }

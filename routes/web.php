@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\PanelControoler;
 use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\Customer\HomeController;
 use App\Models\User;
@@ -43,11 +44,6 @@ Route::prefix('/panel')->group(function () {
     });
 });
 
-
-
-
-
-
 //users
 
 Route::resource('auth', UserController::class)->except('show')
@@ -56,6 +52,8 @@ Route::resource('auth', UserController::class)->except('show')
         'create' => 'user.create',
         'store' => 'user.store',
     ]);
+
+Route::get('user/profile', [ProfileController::class, 'index'])->name('user.profile');
 
 
 Route::get('auth/login', [UserController::class, 'login'])->name('login');

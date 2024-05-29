@@ -10,5 +10,14 @@ class Post extends Model
     use HasFactory;
     protected $fillable = ['title', 'body', 'author_id'];
 
-   
+    public function author()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    static function postsUser()
+    {
+       return Post::with('author')->select()->orderBy('created_at')->get();
+        
+    }
 }

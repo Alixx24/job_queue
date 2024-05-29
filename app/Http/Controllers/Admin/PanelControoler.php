@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Post;
 use App\Repository\PanelRepo;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 
 class PanelControoler extends Controller
 {
@@ -15,8 +15,10 @@ class PanelControoler extends Controller
     {
         $this->repo = $repo;
     }
-    public function index()
+    public function index(Request $request)
     {
-        return $this->repo->index();
+        // dd(Auth::user()->id);
+        return $this->repo->index($request);
     }
+
 }
