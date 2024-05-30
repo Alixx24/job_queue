@@ -12,9 +12,13 @@
             <a class="nav-item nav-link" href="{{ route('home.customer') }}">Go to Web!</a>
                 <a class="nav-item nav-link active" href="{{ route('panel') }}">Home Panel</a>
               
-                @if(session())
-                <a href="{{ route('user.logout') }}" class="btn btn-success">Log Out?</a>
-                @endif
+                @auth
+                                    <a href="{{ route('user.logout') }}" class="btn btn-success">Log Out?</a>
+                                    <a href="{{ route('user.profile') }}" class="btn btn-primary">profile</a>
+
+
+                @endauth
+               
                
                 
             </div>

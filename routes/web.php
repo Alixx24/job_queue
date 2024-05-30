@@ -52,9 +52,14 @@ Route::resource('auth', UserController::class)->except('show')
         'create' => 'user.create',
         'store' => 'user.store',
     ]);
+Route::prefix('user/profile')->group(function () {
+Route::get('/', [ProfileController::class, 'index'])->name('user.profile');
 
-Route::get('user/profile', [ProfileController::class, 'index'])->name('user.profile');
+Route::post('update/', [ProfileController::class, 'update'])->name('user.profile.update');
 
+Route::post('update/public-mail', [ProfileController::class, 'publicMailUpdate'])->name('user.profile.public-mail.update');
+
+});
 
 Route::get('auth/login', [UserController::class, 'login'])->name('login');
 Route::post('auth/checkLogin', [UserController::class, 'checkLogin'])->name('user.checkLogin');
