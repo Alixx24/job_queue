@@ -8,9 +8,6 @@ use Illuminate\Http\Request;
 class PanelRepo {
     public function index(Request $request)
     {
-        // dd(session());
-        // $value = $request->cookie('name');
-        // dd($value);
         $countPost = Post::count();
         $postStatusActived = Post::select('status')->where('status', 1)->count();
         $postStatusDisabled = Post::select('status')->where('status', 0)->count();

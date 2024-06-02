@@ -31,7 +31,7 @@ class UserController extends Controller
 
     public function checkLogin(Request $request, Response $response)
     {
-        $this->repo->checkLogin($request, $response);
+        return $this->repo->checkLogin($request, $response);
     }
 
     public function store(Request $request)

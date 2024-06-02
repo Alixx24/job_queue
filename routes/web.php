@@ -48,17 +48,17 @@ Route::prefix('/panel')->group(function () {
 
 Route::resource('auth', UserController::class)->except('show')
     ->names([
+
         'index' => 'users',
         'create' => 'user.create',
         'store' => 'user.store',
     ]);
 Route::prefix('user/profile')->group(function () {
-Route::get('/', [ProfileController::class, 'index'])->name('user.profile');
+    Route::get('/', [ProfileController::class, 'index'])->name('user.profile');
 
-Route::post('update/', [ProfileController::class, 'update'])->name('user.profile.update');
+    Route::post('update/', [ProfileController::class, 'update'])->name('user.profile.update');
 
-Route::post('update/public-mail', [ProfileController::class, 'publicMailUpdate'])->name('user.profile.public-mail.update');
-
+    Route::post('update/public-mail', [ProfileController::class, 'publicMailUpdate'])->name('user.profile.public-mail.update');
 });
 
 Route::get('auth/login', [UserController::class, 'login'])->name('login');

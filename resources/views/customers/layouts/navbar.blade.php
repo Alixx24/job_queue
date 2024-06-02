@@ -19,7 +19,11 @@
 
                 @endauth
                
-               
+               @if(!auth()->user())
+               <a href="{{ route('login') }}" class="btn btn-success">Login?</a>
+               <a href="{{ route('users') }}" class="btn btn-danger">register?</a>
+
+               @endif
                 
             </div>
         </div>

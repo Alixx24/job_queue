@@ -38,37 +38,16 @@ class UserRepo
         } else {
             $inputs['passord'] = Hash::make($inputs['password']);
             $user = User::create($inputs);
-            dd($user);
+            return redirect()->route('home.customer');
         }
     }
 
     public function checkLogin(Request $request, Response $response)
     {
-      
+
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            //it gives me the auth user object
-                        return redirect()->route('panel');
-
-            // dd(auth()->user()->id);
+            return redirect()->route('home.customer');
         }
-        // $inputs = $request->all();
-        // if (!User::where('email', $inputs['email'])->exists()) {
-        //     var_dump('email not exist');
-        // } else {
-        //     $checkDb = User::where('email', $inputs['email'])->get();
-        //     $passInput = $checkDb[0]['password'];
-        //     $user = $inputs['email']; 
-        //     $result = Hash::check($inputs['password'], $passInput);
-
-        //     if ($result) {
-        //         cookie()->queue(cookie('user_logged_in', $user, 60));
-
-        //         return redirect()->intended(redirect()->back());
-        //         return redirect()->route('panel');
-        //     } else {
-        //         dd('password incorrect');
-        //     }
-        // }
     }
 
     public function logOut(Request $request)
