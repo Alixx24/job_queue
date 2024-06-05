@@ -17,22 +17,22 @@ class ProfileRepo
 
     public function update(Request $request)
     {
-        $id = Auth::user()->id;
-        $item = User::find($id);
+    
 
-        if (isset($_POST['public_mail']) && $_POST['public_mail'] != null && isset($_POST['birth_day']) && $_POST['birth_day'] != null) {
-            $item->public_mail = $request->input('public_mail');
-            $item->birth_day = $request->input('birth_day');
-            $item->save();
-            return redirect()->back();
-        } elseif (isset($_POST['public_mail']) && $_POST['public_mail'] != null) {
-            $item->public_mail = $request->input('public_mail');
-            $item->save();
-            return redirect()->back();
-        } elseif (isset($_POST['birth_day']) && $_POST['birth_day'] != null) {
-            $item->birth_day = $request->input('birth_day');
-            $item->save();
-            return redirect()->back();
+        $id = Auth::id(); 
+        $user = User::find($id);
+        $data = $request->only([
+            'public_mail',
+            'birth_day',
+        ]);
+        $validatedData = $request->validate([
+            'public_mail' => 'nullable|email',
+            'birth_day' => 'nullable|numeric'
+        ]);
+        if (!empty($data['public_mail']) || !empty($data['birth_day'])) {
+            $user->update(array_filter($validatedData));
         }
+
+        return redirect()->back();
     }
 }

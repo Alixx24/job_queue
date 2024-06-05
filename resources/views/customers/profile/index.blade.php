@@ -25,8 +25,13 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="exampleInputPassword1">public mail</label>
+                    <label for="exampleInputPassword1">avatar</label>
                     <input type="file" name="avatar" class="form-control" placeholder="your avatar">
+                </div>
+
+                <div class="form-group">
+                    <label for="exampleInputPassword1">contact me</label>
+                    <input type="text" name="link-us" class="form-control" id="body" placeholder="your public mail">
                 </div>
                  <button type="submit" class="btn btn-primary">update</button>
                 </form>
