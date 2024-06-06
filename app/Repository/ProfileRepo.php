@@ -8,10 +8,11 @@ use Illuminate\Support\Facades\Auth;
 
 class ProfileRepo
 {
-    public function index()
+    public function index(User $thisUser)
     {
-        $thisUser = Auth::user()->email;
-        $user = User::where('email', $thisUser)->first();
+      
+        $user = $thisUser->findByMail();
+     
         return view('customers.profile.index', compact('user'));
     }
 

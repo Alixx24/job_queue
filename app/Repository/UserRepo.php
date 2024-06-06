@@ -48,6 +48,7 @@ class UserRepo
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             return redirect()->route('home.customer');
         }
+        return redirect()->route('login');
     }
 
     public function logOut(Request $request)

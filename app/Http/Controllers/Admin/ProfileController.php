@@ -17,9 +17,9 @@ class ProfileController extends Controller
     {
         $this->repo = $repo;
     }
-    public function index()
+    public function index(User $thisUser)
     {
-        return $this->repo->index();
+        return $this->repo->index($thisUser);
     }
 
     public function birthDayUpdate(Request $request)

@@ -35,13 +35,9 @@
                 </div>
                  <button type="submit" class="btn btn-primary">update</button>
                 </form>
-                <th>public email: {{ $user->public_mail }}</th>
-           
-                
-               
+                <th>public email: {{ $user->public_mail }}</th>             
         </div><br>
-            
-         
+                
         <th>joined: {{ $user->created_at }}</th>
     </div>
 @endsection

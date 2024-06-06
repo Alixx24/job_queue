@@ -10,5 +10,9 @@
         <h5>created_at: {{ $post->created_at }} </h5>
         <a href="{{ route('home.customer.showPost', $post->id) }}">see more!</a>
     @endforeach
+
+    @foreach($latestUser as $user)
+        {{ dd($user) }}
+    @endforeach
 </div>
 @endsection
